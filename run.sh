@@ -4,12 +4,12 @@ if [ -z "$1" ]; then
 fi
 FILE=$1
 
-gcc -Wall -o $FILE $FILE.c
+gcc -Wall -o ./output/$FILE $FILE.c
 
 if [ $? -eq 0 ]; then
     echo "✅ Compile berhasil, menjalankan $FILE..."
     echo "=============================="
-    ./$FILE
+    ./output/$FILE
     echo "=============================="
 else 
     echo "Proses compile gagal!"
