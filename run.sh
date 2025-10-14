@@ -1,5 +1,5 @@
 if [ -z "$1" ]; then
-    # echo "Sedang : $1"
+    echo "Masukan file c untuk di compile"
     exit 1
 fi
 FILE=$1

@@ -12,7 +12,7 @@ int MenuSelection(int selectedMenu, char menus[][100], int totalMenu)
     }
     scanf("%i", &selectedMenu);
     printf("%s \n", menus[selectedMenu - 1]);
-    printf("Apakah anda ingin mengedit lagi? | 0/1");
+    printf("Apakah anda ingin mengedit lagi? | 0/1 \n");
     scanf("%i", &isDone);
     return isDone;
 }
