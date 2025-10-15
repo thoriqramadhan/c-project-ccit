@@ -10,15 +10,11 @@ int main()
     int selectedMenu;
     while (1)
     {
-        int isDone = MenuSelection(selectedMenu, menus, totalMenu);
-        printf("%i \n", isDone);
-        printf("%i \n", selectedMenu);
+        MenuSelection(&selectedMenu, menus, totalMenu);
+        printf("Pilihan selected menu %i \n", selectedMenu);
         if (selectedMenu == 1)
         {
             getDailyMenuList();
-        }
-        if (!isDone)
-        {
             break;
         }
     }
