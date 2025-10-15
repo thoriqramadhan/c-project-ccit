@@ -9,7 +9,7 @@ struct DailyMenu
     int price;
 };
 
-struct DailyMenu menuData[100] = {{"ayam", 1, 100}};
+struct DailyMenu menuData[5] = {{"ayam", 1, 100}};
 
 int getDailyMenuList()
 {
