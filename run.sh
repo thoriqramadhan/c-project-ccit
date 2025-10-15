@@ -13,4 +13,5 @@ if [ $? -eq 0 ]; then
     echo "=============================="
 else 
     echo "Proses compile gagal!"
+    exit 1
 fi
