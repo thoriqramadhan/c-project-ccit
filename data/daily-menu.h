@@ -14,15 +14,18 @@ struct DailyMenu menuData[5] = {{"ayam", 1, 100}};
 
 int getDailyMenuList()
 {
-    printf("%s", menuData[0].nama);
+    // printf("%s\n", menuData[0].nama);
     int menuDataLength = sizeof(menuData) / sizeof(menuData[0]);
-    printf("%i \n", menuDataLength);
+    printf("Total menu : %i\n", menuDataLength);
+
     for (int i = 1; i <= menuDataLength; i++)
     {
         printf("%d. %s \n", i, menuData[i - 1]);
     }
+
+    return menuDataLength;
 }
-// Delete element by moving elements to the left and resize the array
+
 void deleteElement(struct DailyMenu arr[], int *n, int indexToDelete)
 {
     for (int i = indexToDelete; i < *n - 1; i++)
@@ -31,16 +34,11 @@ void deleteElement(struct DailyMenu arr[], int *n, int indexToDelete)
     }
     (*n)--;
 }
-// Function to delete the data by select the data than calling the deleteElement function
+
 void destroyMenuList()
 {
-    int menuDataLength = sizeof(menuData) / sizeof(menuData[0]);
-    printf("%i \n", menuDataLength);
-    for (int i = 1; i <= menuDataLength; i++)
-    {
-        printf("%s \n", menuData[i - 1]);
-    }
-
+    int menuDataLength = getDailyMenuList();
+    
     printf("Pilih menu yang ingin dihapus 1 - %i :\n", menuDataLength);
     int selectedMenu;
 
