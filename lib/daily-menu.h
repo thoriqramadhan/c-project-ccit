@@ -60,10 +60,10 @@ void addDailyMenuList()
     int qtyBaru, priceBaru;
 
     getMenuHeader("Tambah Menu");
+    int sisa = 0;
 
 lagi:
     // cek apakah masih ada slot kosong
-    int sisa = 0;
     for (int i = 0; i < menuCapacity; i++)
         if (menuData[i].nama[0] == '\0')
             sisa++;
