@@ -2,18 +2,9 @@
 #define DAILY_MENU_H
 #include <stdio.h>
 #include <string.h>
-
-struct DailyMenu
-{
-    char nama[20];
-    int qty;
-    int price;
-};
-
-struct DailyMenu menuData[5] = {{"ayam", 1, 100}};
-int menuDataLength = sizeof(menuData) / sizeof(menuData[0]);
+#include "../data/data.h"
 // get func
-int getDailyMenuList(int showHeader)
+void getDailyMenuList(int showHeader)
 {
     if (showHeader)
     {
@@ -30,11 +21,9 @@ int getDailyMenuList(int showHeader)
 // delete func
 void deleteElement(struct DailyMenu arr[], int *n, int indexToDelete)
 {
-    for (int i = indexToDelete; i < *n - 1; i++)
-    {
-        arr[i] = arr[i + 1];
-    }
-    (*n)--;
+    strcpy(arr[indexToDelete].nama, ""); // kosongkan nama
+    arr[indexToDelete].qty = 0;
+    arr[indexToDelete].price = 0;
 }
 
 void destroyMenuList()
@@ -48,60 +37,104 @@ void destroyMenuList()
     scanf("%i", &selectedMenu);
     deleteElement(menuData, &menuDataLength, selectedMenu - 1);
     printf("Menu berhasil dihapus \n");
+    updateMenuData();
 }
 // add func
+int getNextEmptyIndex()
+{
+    for (int i = 0; i < menuCapacity; i++)
+    {
+        if (menuData[i].nama[0] == '\0')
+        {
+            return i;
+        }
+    }
+    // kalau semua terisi, return -1
+    return -1;
+}
 void addDailyMenuList()
 {
     char lanjut[10];
     int banyak;
-    int jumlah = 1;
     char namaBaru[50];
     int qtyBaru, priceBaru;
 
     getMenuHeader("Tambah Menu");
+
 lagi:
-    if (jumlah >= 5)
+    // cek apakah masih ada slot kosong
+    int sisa = 0;
+    for (int i = 0; i < menuCapacity; i++)
+        if (menuData[i].nama[0] == '\0')
+            sisa++;
+
+    if (sisa == 0)
     {
-        printf("\n\t==!Maaf, menu sudah penuh (maksimal 5 item)!==\n");
+        printf("\n\t==!Maaf, menu sudah penuh (maksimal %d item)!==\n", menuCapacity);
         return;
     }
 
     printf("\n(masukkan 0 untuk kembali ke menu)\nBerapa menu yang ingin di tambah : ");
-    scanf("%d", &banyak);
+    if (scanf("%d", &banyak) != 1)
+    {
+        while (getchar() != '\n')
+            ; // bersihkan stdin jika input invalid
+        printf("Input tidak valid\n");
+        return;
+    }
 
     if (banyak == 0)
         return;
 
-    if (banyak < 5)
+    if (banyak > sisa)
     {
-        if (jumlah + banyak > 5)
-        {
-            printf("\n\t==!Maaf, hanya tersisa %d slot lagi!==\n", 5 - jumlah);
-            goto lagi;
-        }
-        for (int i = 0; i < banyak; i++)
-        {
-            printf("Masukkan nama menu %d : ", i + 1);
-            scanf(" %[^\n]", namaBaru);
-
-            printf("Jumlah (qty) : ");
-            scanf("%d", &qtyBaru);
-
-            printf("Harga : ");
-            scanf("%d", &priceBaru);
-
-            printf("\n\t==!Menu berhasil ditambahkan!==\n\n");
-
-            strcpy(menuData[jumlah].nama, namaBaru);
-            menuData[jumlah].qty = qtyBaru;
-            menuData[jumlah].price = priceBaru;
-            jumlah++;
-        }
-    }
-    else
-    {
-        printf("\n==!Maaf, maksimal input 1–4 menu per sesi!==\n");
+        printf("\n\t==!Maaf, hanya tersisa %d slot lagi!==\n", sisa);
         goto lagi;
+    }
+
+    for (int i = 0; i < banyak; i++)
+    {
+        int idxToAdd = getNextEmptyIndex();
+        if (idxToAdd == -1)
+        {
+            printf("\n\t==!Slot menu penuh unexpectedly!==\n");
+            break;
+        }
+
+        printf("Masukkan nama menu %d : ", i + 1);
+        scanf(" %[^\n]", namaBaru);
+
+        printf("Jumlah (qty) : ");
+        while (scanf("%d", &qtyBaru) != 1)
+        {
+            while (getchar() != '\n')
+                ;
+            printf("Input tidak valid! Masukkan angka untuk qty: ");
+        }
+
+        printf("Harga : ");
+        while (scanf("%d", &priceBaru) != 1)
+        {
+            while (getchar() != '\n')
+                ;
+            printf("Input tidak valid! Masukkan angka untuk harga: ");
+        }
+
+        // assign
+        strncpy(menuData[idxToAdd].nama, namaBaru, sizeof(menuData[idxToAdd].nama) - 1);
+        menuData[idxToAdd].nama[sizeof(menuData[idxToAdd].nama) - 1] = '\0';
+        menuData[idxToAdd].qty = qtyBaru;
+        menuData[idxToAdd].price = priceBaru;
+
+        // update menuDataLength jika perlu
+        if (idxToAdd + 1 > menuDataLength)
+        {
+            menuDataLength = idxToAdd + 1;
+        }
+
+        updateMenuData();
+
+        printf("\n\t==!Menu berhasil ditambahkan!==\n\n");
     }
 
     printf("\nApakah masih ada yang ingin ditambah (ya/no) : ");
@@ -113,8 +146,11 @@ lagi:
     else
     {
         printf("\n\nMenu yang telah di tambah :\n");
-        for (int i = 0; i < jumlah; i++)
+        // tampilkan hanya hingga menuDataLength
+        for (int i = 0; i < menuDataLength; i++)
         {
+            if (menuData[i].nama[0] == '\0')
+                continue;
             printf("%d. %s (Qty: %d, Harga: %d)\n", i + 1, menuData[i].nama, menuData[i].qty, menuData[i].price);
         }
 
@@ -123,7 +159,6 @@ lagi:
         getchar();
     }
 }
-
 // edit func
 void editDailyMenu()
 {
@@ -133,7 +168,12 @@ void editDailyMenu()
     {
         getDailyMenuList(0);
         printf("==================================\n");
+        printf("(Pilih angka 0 untuk keluar) \n");
         scanf("%i", &selectedMenu);
+        if (selectedMenu == 0)
+        {
+            break;
+        }
         if (selectedMenu < 1 || selectedMenu > menuDataLength || strlen(menuData[selectedMenu - 1].nama) <= 0)
         {
             printf("Menu tidak tersedia, silahkan pilih menu lagi \n");
@@ -153,12 +193,12 @@ void editDailyMenu()
             }
             printf("Pilih menu anda : ");
             scanf("%i", &selectedMenuSelection);
-            int isValid;
             switch (selectedMenuSelection)
             {
             case 1:
                 printf("Masukan nama menu baru untuk menu : %s \n", menuData[selectedMenu - 1].nama);
                 scanf("%s", menuData[selectedMenu - 1].nama);
+                updateMenuData();
                 break;
             case 2:
                 printf("Masukan kuantitas baru untuk menu : %s \n", menuData[selectedMenu - 1].nama);
@@ -167,7 +207,8 @@ void editDailyMenu()
                     if (scanf("%i", &menuData[selectedMenu - 1].qty) == 1)
                     {
                         while (getchar() != '\n')
-                            ;  // bersihkan newline
+                            ; // bersihkan newline
+                        updateMenuData();
                         break; // input valid, keluar dari loop
                     }
                     else
@@ -175,6 +216,7 @@ void editDailyMenu()
                         printf("Input tidak valid! Masukkan angka.\n");
                         while (getchar() != '\n')
                             ; // hapus input buffer
+                        updateMenuData();
                         printf("Masukan kuantitas baru untuk menu : %s \n", menuData[selectedMenu - 1].nama);
                     }
                 }
@@ -186,7 +228,8 @@ void editDailyMenu()
                     if (scanf("%i", &menuData[selectedMenu - 1].price) == 1)
                     {
                         while (getchar() != '\n')
-                            ;  // bersihkan newline
+                            ; // bersihkan newline
+                        updateMenuData();
                         break; // input valid
                     }
                     else

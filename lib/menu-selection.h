@@ -10,7 +10,6 @@ void MenuSelection(int *selectedMenu, char menus[][100], int totalMenu)
         printf("%i.%s \n", i, menus[i - 1]);
     }
     scanf("%i", selectedMenu);
-    printf("%s \n", menus[*selectedMenu - 1]);
 }
 
 void getMenuHeader(char menuName[20])
