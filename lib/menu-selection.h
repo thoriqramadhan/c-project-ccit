@@ -13,4 +13,11 @@ void MenuSelection(int *selectedMenu, char menus[][100], int totalMenu)
     printf("%s \n", menus[*selectedMenu - 1]);
 }
 
+void getMenuHeader(char menuName[20])
+{
+    printf("==================================\n");
+    printf("\t +|%s|+\n", menuName);
+    printf("==================================\n\n");
+}
+
 #endif
