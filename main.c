@@ -16,7 +16,7 @@ int main()
         if (selectedMenu == 1)
         {
             getDailyMenuList(1);
-            break;
+            printf("\n==================================\n\n");
         }
         else if (selectedMenu == 2)
         {
