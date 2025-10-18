@@ -4,7 +4,7 @@
 
 int main()
 {
-    char menus[][100] = {"Lihat Menu", "Tambah Menu", "Edit Menu", "Hapus Menu","Exit"};
+    char menus[][100] = {"Lihat Menu", "Tambah Menu", "Edit Menu", "Hapus Menu", "Exit"};
 
     int totalMenu = sizeof(menus) / sizeof(menus[0]);
     int selectedMenu;
@@ -14,23 +14,26 @@ int main()
         printf("Pilihan selected menu %i \n", selectedMenu);
         if (selectedMenu == 1)
         {
-            getDailyMenuList();
+            getDailyMenuList(1);
             break;
-        }else if (selectedMenu == 2)
+        }
+        else if (selectedMenu == 2)
         {
-            AddDailyMenuList();
-        }else if (selectedMenu == 3)
+            addDailyMenuList();
+        }
+        else if (selectedMenu == 3)
         {
-            printf("Maaf menu blm siap!!");
-        }else if (selectedMenu == 4)
+            editDailyMenu();
+        }
+        else if (selectedMenu == 4)
         {
             destroyMenuList();
-        }else if (selectedMenu == 5)
+        }
+        else if (selectedMenu == 5)
         {
             exitMenu();
             break;
         }
-        
     }
     return 0;
 }
