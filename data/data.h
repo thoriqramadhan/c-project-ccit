@@ -23,7 +23,7 @@ struct DailyMenu menuData[5] = {
 
 // Variabel global
 int menuDataLength = 5;
-int menuCapacity = sizeof(menuData) / sizeof(menuData[0]); // kapasitas total array
+int menuCapacity = sizeof(menuData) / sizeof(menuData[0]);
 
 char dataLocation[50] = "./data/data.txt";
 

@@ -24,6 +24,10 @@ void deleteElement(struct DailyMenu arr[], int *n, int indexToDelete)
     strcpy(arr[indexToDelete].nama, ""); // kosongkan nama
     arr[indexToDelete].qty = 0;
     arr[indexToDelete].price = 0;
+    while (*n > 0 && arr[*n - 1].nama[0] == '\0')
+    {
+        (*n)--;
+    }
 }
 
 void destroyMenuList()
@@ -60,9 +64,10 @@ void addDailyMenuList()
     int qtyBaru, priceBaru;
 
     getMenuHeader("Tambah Menu");
-    int sisa = 0;
 
+    int sisa = 0;
 lagi:
+    sisa = 0;
     // cek apakah masih ada slot kosong
     for (int i = 0; i < menuCapacity; i++)
         if (menuData[i].nama[0] == '\0')
