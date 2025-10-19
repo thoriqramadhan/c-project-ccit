@@ -181,7 +181,7 @@ void editDailyMenu()
         }
         char editMenuSelection[][10] = {"nama", "qty", "price"};
         int editMenuSelectionLength = sizeof(editMenuSelection) / sizeof(editMenuSelection[0]);
-        printf("%i \n", editMenuSelectionLength);
+        // printf("%i \n", editMenuSelectionLength);
         int selectedMenuSelection;
         // loop setlah memlihih menu untuk di edit
         while (1)
