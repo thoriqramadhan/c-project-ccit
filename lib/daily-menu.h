@@ -60,10 +60,10 @@ void addDailyMenuList()
     int qtyBaru, priceBaru;
 
     getMenuHeader("Tambah Menu");
+    int sisa = 0;
 
 lagi:
     // cek apakah masih ada slot kosong
-    int sisa = 0;
     for (int i = 0; i < menuCapacity; i++)
         if (menuData[i].nama[0] == '\0')
             sisa++;
@@ -181,7 +181,7 @@ void editDailyMenu()
         }
         char editMenuSelection[][10] = {"nama", "qty", "price"};
         int editMenuSelectionLength = sizeof(editMenuSelection) / sizeof(editMenuSelection[0]);
-        printf("%i \n", editMenuSelectionLength);
+        // printf("%i \n", editMenuSelectionLength);
         int selectedMenuSelection;
         // loop setlah memlihih menu untuk di edit
         while (1)

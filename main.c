@@ -16,7 +16,7 @@ int main()
         if (selectedMenu == 1)
         {
             getDailyMenuList(1);
-            break;
+            printf("\n==================================\n\n");
         }
         else if (selectedMenu == 2)
         {
@@ -35,6 +35,13 @@ int main()
             exitMenu();
             break;
         }
+        else
+        {
+            printf("==================================\n"); 
+            printf("\tMenu Tidak Tersedia\n"); 
+            printf("==================================\n"); 
+        }
+        
     }
     return 0;
 }
