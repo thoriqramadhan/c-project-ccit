@@ -35,6 +35,13 @@ int main()
             exitMenu();
             break;
         }
+        else
+        {
+            printf("==================================\n"); 
+            printf("\tMenu Tidak Tersedia\n"); 
+            printf("==================================\n"); 
+        }
+        
     }
     return 0;
 }
