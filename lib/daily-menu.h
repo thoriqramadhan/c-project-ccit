@@ -2,6 +2,7 @@
 #define DAILY_MENU_H
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
 #include "../data/data.h"
 // get func
 void getDailyMenuList(int showHeader)
@@ -127,6 +128,7 @@ lagi:
 
         // assign
         strncpy(menuData[idxToAdd].nama, namaBaru, sizeof(menuData[idxToAdd].nama) - 1);
+
         menuData[idxToAdd].nama[sizeof(menuData[idxToAdd].nama) - 1] = '\0';
         menuData[idxToAdd].qty = qtyBaru;
         menuData[idxToAdd].price = priceBaru;
@@ -251,12 +253,26 @@ void editDailyMenu()
                 continue;
                 break;
             }
-            printf("apakah anda masih ingin mengedit? 1|0 \n");
-            int stopEdit;
-            scanf("%i", &stopEdit);
-            if (!stopEdit)
+        ask_exit:
+            printf("apakah anda masih ingin mengedit? yes|no\n");
+            char stopEdit[3];
+            scanf("%s", &stopEdit);
+            printf("Pilihan %s\n", stopEdit);
+            for (int i = 1; i < strlen(stopEdit); i++)
+            {
+                stopEdit[i - 1] = tolower(stopEdit[i - 1]);
+            }
+            if (strcmp(stopEdit, "yes") == 0)
+            {
+                return;
+            }
+            else if (strcmp(stopEdit, "no") == 0)
             {
                 break;
+            }
+            else
+            {
+                goto ask_exit;
             }
         }
     }

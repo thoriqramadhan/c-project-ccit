@@ -1,3 +1,4 @@
 .vscode
 /output/
 /data/data.txt
+*.exe
